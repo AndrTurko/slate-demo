@@ -1,0 +1,26 @@
+.AddButton {
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  color: white;
+  background: #4545f9;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  outline:none;
+
+  &:before {
+    position: relative;
+    z-index: 100;
+    content: "+";
+    font-size: 46px;
+  }
+
+  &:hover {
+    background: #1f1ff9;
+  }
+
+  &:active {
+    background: #4545f9;
+  }
+}
