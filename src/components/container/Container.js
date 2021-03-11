@@ -4,7 +4,6 @@ import {restrictToWindowEdges} from '@dnd-kit/modifiers';
 import {rectSortingStrategy} from '@dnd-kit/sortable';
 
 import { Sortable } from '../sortable';
-import { GridContainer } from '../gridContainer';
 import styles from './Container.module.css';
 import { Wrapper } from '../wrapper';
 
@@ -14,7 +13,7 @@ export function Container() {
       id: nanoid(),
       text: [{
         children: [
-          { text: 'This is editable plain text, just like a <textarea>!' },
+          { text: 'Some text' },
         ],
       }]
     }
@@ -26,12 +25,11 @@ export function Container() {
   const addItem = () => {
     setItems([ {id:nanoid(), text: [{
       children: [
-        { text: 'This is editable plain text, just like a <textarea>!' },
+        { text: 'Some text' },
       ],
     }]} , ...items])
   }
   const updateText = (id, text) => {
-    console.log('text', text);
     const newItems = items.map(item => {
       if(item.id === id) {
         return {
@@ -44,9 +42,6 @@ export function Container() {
     })
 
     setItems(newItems);
-
-    console.log('newItems', newItems);
-
   };
 
   return <Wrapper center column>
@@ -55,7 +50,6 @@ export function Container() {
       items={items}
       setItems={setItems}
       adjustScale={true}
-      Container={(props) => <GridContainer {...props} columns={2} />}
       strategy={rectSortingStrategy}
       wrapperStyle={() => ({
         width: 400,

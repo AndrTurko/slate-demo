@@ -24,7 +24,7 @@ export const Item = React.memo(
         style,
         transition,
         transform,
-        value,
+        id,
         wrapperStyle,
         removeItem,
         updateText,
@@ -44,7 +44,6 @@ export const Item = React.memo(
           document.body.style.cursor = '';
         };
       }, [dragOverlay]);
-
 
       return <li
         className={classNames(
@@ -80,19 +79,17 @@ export const Item = React.memo(
             styles.Item,
             dragging && styles.dragging,
             handle && styles.withHandle,
-            handle && styles.withHandle,
             dragOverlay && styles.dragOverlay,
             disabled && styles.disabled,
             color && styles.color
           )}
           tabIndex={!handle ? 0 : undefined}
           style={style}
-          data-cypress="draggable-item"
           {...(!handle ? listeners : undefined)}
           {...props}
         >
-          <SlateEditor key={value} id={value} text={text} updateText={updateText} />
-          <button className={styles.DeleteButton} onClick={() => removeItem(value)} />
+          <SlateEditor id={id} text={text} updateText={updateText} />
+          <button className={styles.DeleteButton} onClick={() => removeItem(id)} />
           {handle ? <Handle {...listeners} /> : null}
         </div>
       </li>

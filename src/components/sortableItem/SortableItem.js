@@ -1,5 +1,5 @@
-import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
+
 import './SortableItem.module.css';
 import { Item } from '../item';
 
@@ -32,9 +32,8 @@ export function SortableItem({
   return (
     <Item
       ref={setNodeRef}
-      value={id} // TODO
+      id={id}
       text={text}
-      disabled={disabled}
       dragging={isDragging}
       sorting={isSorting}
       handle={handle}

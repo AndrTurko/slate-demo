@@ -7,7 +7,6 @@ export function Handle(props) {
     <div
       className={styles.Handle}
       tabIndex={0}
-      data-cypress="draggable-handle"
       {...props}
     >
       <svg viewBox="0 0 20 20">

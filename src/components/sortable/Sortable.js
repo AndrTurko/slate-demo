@@ -1,42 +1,26 @@
 import React, {useState} from 'react';
 import {createPortal} from 'react-dom';
-
 import {
-  closestCenter,
   DragOverlay,
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
+  DndContext
 } from '@dnd-kit/core';
 import {
   arrayMove,
-
   SortableContext,
-  sortableKeyboardCoordinates,
-
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-
 
 import {Item} from '../item';
 import {Wrapper} from '../wrapper';
 import {SortableItem} from '../sortableItem';
-
+import { GridContainer } from '../gridContainer';
 
 export function Sortable({
-  activationConstraint,
   adjustScale = false,
-  Container,
-  collisionDetection = closestCenter,
   strategy = rectSortingStrategy,
   handle = true,
   getItemStyles = () => ({}),
   wrapperStyle = () => ({}),
-  isDisabled = () => false,
-  modifiers,
   useDragOverlay = true,
   items,
   setItems,
@@ -44,34 +28,16 @@ export function Sortable({
   updateText
 }) {
   const [activeId, setActiveId] = useState(null);
-  const sensors = useSensors(
-    useSensor(MouseSensor, {
-      activationConstraint,
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint,
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
   const getIndex = id => items.findIndex(item => item.id === id);
   const activeIndex = activeId ? getIndex(activeId) : -1;
-
-  console.log('activeIndex', activeIndex);
-  console.log('activeId', activeId);
-  console.log('items', items);
 
   return (
     <div>
       <DndContext
-        sensors={sensors} // TODO
-        collisionDetection={collisionDetection} // TODO
         onDragStart={({active}) => {
           if (!active) {
             return;
           }
-
           setActiveId(active.id);
         }}
         onDragEnd={({over}) => {
@@ -85,44 +51,42 @@ export function Sortable({
           }
         }}
         onDragCancel={() => setActiveId(null)}
-        modifiers={modifiers} // TODO
       >
         <Wrapper center>
           <SortableContext items={items.map(item => item.id)} strategy={strategy}>
-            <Container>
-              {items.map((value, index) => ( // TODO
+            <GridContainer columns={2}>
+              {items.map((item, index) => (
                 <SortableItem
-                  key={value.id}
-                  id={value.id}
-                  text={value.text}
+                  key={item.id}
+                  id={item.id}
+                  text={item.text}
                   handle={handle}
                   index={index}
                   style={getItemStyles}
                   wrapperStyle={wrapperStyle}
-                  disabled={isDisabled(value.id)} // TODO
                   useDragOverlay={useDragOverlay}
                   removeItem={removeItem}
                   updateText={updateText}
               />
             ))}
-          </Container>
+          </GridContainer>
         </SortableContext>
       </Wrapper>
-      {/* {useDragOverlay // TODO
+      {useDragOverlay
         ? createPortal(
             <DragOverlay adjustScale={adjustScale}>
               {activeId ? (
                 <Item
-                  value={items[activeIndex]}
+                  id={items[activeIndex].id}
                   handle={handle}
-
+                  text={items[activeIndex].text}
                   wrapperStyle={wrapperStyle({
                     index: activeIndex,
                     isDragging: true,
-                    id: items[activeIndex],
+                    id: items[activeIndex].id,
                   })}
                   style={getItemStyles({
-                    id: items[activeIndex],
+                    id: items[activeIndex].id,
                     index: activeIndex,
                     isSorting: activeId !== null,
                     isDragging: true,
@@ -135,7 +99,7 @@ export function Sortable({
             </DragOverlay>,
             document.body
           )
-        : null} */}
+        : null}
     </DndContext>
     </div>
   );
