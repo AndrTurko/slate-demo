@@ -40,7 +40,8 @@ export function Sortable({
   useDragOverlay = true,
   items,
   setItems,
-  removeItem
+  removeItem,
+  updateText
 }) {
   const [activeId, setActiveId] = useState(null);
   const sensors = useSensors(
@@ -54,14 +55,18 @@ export function Sortable({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const getIndex = items.indexOf.bind(items);
+  const getIndex = id => items.findIndex(item => item.id === id);
   const activeIndex = activeId ? getIndex(activeId) : -1;
+
+  console.log('activeIndex', activeIndex);
+  console.log('activeId', activeId);
+  console.log('items', items);
 
   return (
     <div>
       <DndContext
-        sensors={sensors}
-        collisionDetection={collisionDetection}
+        sensors={sensors} // TODO
+        collisionDetection={collisionDetection} // TODO
         onDragStart={({active}) => {
           if (!active) {
             return;
@@ -80,28 +85,30 @@ export function Sortable({
           }
         }}
         onDragCancel={() => setActiveId(null)}
-        modifiers={modifiers}
+        modifiers={modifiers} // TODO
       >
         <Wrapper center>
-          <SortableContext items={items} strategy={strategy}>
+          <SortableContext items={items.map(item => item.id)} strategy={strategy}>
             <Container>
-              {items.map((value, index) => (
+              {items.map((value, index) => ( // TODO
                 <SortableItem
-                  key={value}
-                  id={value}
+                  key={value.id}
+                  id={value.id}
+                  text={value.text}
                   handle={handle}
                   index={index}
                   style={getItemStyles}
                   wrapperStyle={wrapperStyle}
-                  disabled={isDisabled(value)}
+                  disabled={isDisabled(value.id)} // TODO
                   useDragOverlay={useDragOverlay}
                   removeItem={removeItem}
+                  updateText={updateText}
               />
             ))}
           </Container>
         </SortableContext>
       </Wrapper>
-      {useDragOverlay
+      {/* {useDragOverlay // TODO
         ? createPortal(
             <DragOverlay adjustScale={adjustScale}>
               {activeId ? (
@@ -128,7 +135,7 @@ export function Sortable({
             </DragOverlay>,
             document.body
           )
-        : null}
+        : null} */}
     </DndContext>
     </div>
   );

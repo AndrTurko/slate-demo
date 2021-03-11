@@ -19,6 +19,9 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
+    "slate": "^0.59.0",
+    "slate-history": "^0.59.0",
+    "slate-react": "^0.59.0",
     "style-loader": "^2.0.0",
     "web-vitals": "^1.0.1"
   },

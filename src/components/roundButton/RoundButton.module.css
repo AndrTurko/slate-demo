@@ -9,21 +9,13 @@
   cursor: pointer;
   outline:none;
 
-
-  &.pivot {
+  &.remove {
     transform: rotate(45deg);
-  }
-
-  &.absolute {
     position: absolute;
     background: red;
     top: 10px;
     right: 10px;
-  }
-
-  &.small {
     width: 20px;
     height: 20px;
-
   }
 }

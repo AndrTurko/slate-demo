@@ -9,14 +9,45 @@ import styles from './Container.module.css';
 import { Wrapper } from '../wrapper';
 
 export function Container() {
-  const [items, setItems] = useState([ 1, nanoid() ]);
+  const [items, setItems] = useState([
+    {
+      id: nanoid(),
+      text: [{
+        children: [
+          { text: 'This is editable plain text, just like a <textarea>!' },
+        ],
+      }]
+    }
+  ]);
 
   const removeItem = (id) => {
-    setItems(items.filter((item) => item !== id))
+    setItems(items.filter((item) => item.id !== id))
   }
   const addItem = () => {
-    setItems([nanoid(), ...items])
+    setItems([ {id:nanoid(), text: [{
+      children: [
+        { text: 'This is editable plain text, just like a <textarea>!' },
+      ],
+    }]} , ...items])
   }
+  const updateText = (id, text) => {
+    console.log('text', text);
+    const newItems = items.map(item => {
+      if(item.id === id) {
+        return {
+          ...item,
+          text
+        }
+      } else {
+        return item;
+      }
+    })
+
+    setItems(newItems);
+
+    console.log('newItems', newItems);
+
+  };
 
   return <Wrapper center column>
     <button className={styles.AddButton} onClick={() => addItem()} />
@@ -32,6 +63,7 @@ export function Container() {
       })}
       modifiers={[restrictToWindowEdges]}
       removeItem={removeItem}
+      updateText={updateText}
     />
   </Wrapper>
 }

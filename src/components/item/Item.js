@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Handle } from '../handle';
 
 import styles from './Item.module.css';
-import { RoundButton } from '../roundButton';
+import { SlateEditor } from "../slateEditor";
 
 export const Item = React.memo(
   React.forwardRef(
@@ -27,6 +27,8 @@ export const Item = React.memo(
         value,
         wrapperStyle,
         removeItem,
+        updateText,
+        text,
         ...props
       },
       ref
@@ -89,8 +91,8 @@ export const Item = React.memo(
           {...(!handle ? listeners : undefined)}
           {...props}
         >
-          {value}
-          <RoundButton absolute pivot small onClick={() => removeItem(value)}>+</RoundButton>
+          <SlateEditor key={value} id={value} text={text} updateText={updateText} />
+          <button className={styles.DeleteButton} onClick={() => removeItem(value)} />
           {handle ? <Handle {...listeners} /> : null}
         </div>
       </li>

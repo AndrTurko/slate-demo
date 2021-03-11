@@ -11,7 +11,9 @@ export function SortableItem({
   style,
   useDragOverlay,
   wrapperStyle,
-  removeItem
+  removeItem,
+  updateText,
+  text
 }) {
   const {
     attributes,
@@ -30,7 +32,8 @@ export function SortableItem({
   return (
     <Item
       ref={setNodeRef}
-      value={id}
+      value={id} // TODO
+      text={text}
       disabled={disabled}
       dragging={isDragging}
       sorting={isSorting}
@@ -51,6 +54,7 @@ export function SortableItem({
       data-id={id}
       dragOverlay={!useDragOverlay && isDragging}
       removeItem={removeItem}
+      updateText={updateText}
       {...attributes}
     />
   );
